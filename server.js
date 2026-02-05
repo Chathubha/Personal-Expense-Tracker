@@ -15,11 +15,13 @@
 
 const express = require("express");
 const mongoose = require("mongoose");
+const expenseRoutes = require("./routes/expenseRoutes");
 require("./models/Expense");
 require("dotenv").config();
 
 const app = express();
 app.use(express.json());
+app.use("/api/expenses", expenseRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)
