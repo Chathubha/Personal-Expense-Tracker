@@ -15,6 +15,7 @@
 
 const express = require("express");
 const mongoose = require("mongoose");
+require("./models/Expense");
 require("dotenv").config();
 
 const app = express();
