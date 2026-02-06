@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Expense = require("../models/Expense");
+const auth = require("../middleware/auth");
+router.use(auth);
 
 router.post("/", async (req, res) => {
   try {
@@ -11,6 +13,7 @@ router.post("/", async (req, res) => {
       amount,
       category,
       date,
+      user: req.user.id 
     });
 
     const savedExpense = await expense.save();
@@ -23,7 +26,7 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const expenses = await Expense.find().sort({ createdAt: -1 });
+    const expenses = await Expense.find({ user: req.user.id }).sort({ createdAt: -1 });
     res.status(200).json(expenses);
   } catch (error) {
     res.status(500).json({ message: error.message });
